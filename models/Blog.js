@@ -9,3 +9,4 @@ class Blog {
     this.imageUrl = imageUrl;
   }
 }
+module.exports = Blog;

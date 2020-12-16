@@ -1,12 +1,13 @@
 const express = require("express");
+const path = require("path");
 const dotenv = require("dotenv");
 
 dotenv.config({ path: "./config.env" });
-const blogRouter = require("./routes/blogRoutes");
+const router = require("./routes/blogRoutes");
 
 const app = express();
-app.use(express.json); //middleware
-app.use("/blogs", blogRouter);
+app.use(express.json()); //middleware
+app.use("/blogList", router);
 
 app.listen(
   process.env.PORT,
