@@ -18,7 +18,7 @@
   2. Use "npm run start" command to start the server
   3. Test using **Postman**
   
-### The end points shall be tested using Postman using following requests
+#### The end points shall be tested using Postman using following requests
   > - data will be sent back as json objects
   
   1. Get all the blogs using 
