@@ -5,6 +5,7 @@ const Blog = require("../models/Blog");
 const AppError = require("../helpers/appErrorClass");
 const sendResponse = require("../helpers/sendResponse");
 const sendErrorMessage = require("../helpers/sendError");
+const { timeStamp } = require("console");
 const fileName = path.join(__dirname, "../data", "blogs.json");
 const blogs = JSON.parse(fs.readFileSync(fileName, "utf-8"));
 
@@ -15,9 +16,16 @@ const checkIfQuery = (req, res, next) => {
   }
   let blog = blogs.filter((blog) => {
     return Object.keys(req.query).every((property) => {
-      return blog[property] == req.query[property];
+      let reg = new RegExp(req.query[property], "i");
+      console.log(reg.test(blog[property]));
+      return reg.test(blog[property]);
     });
   });
+  // let blog = blogs.filter((blog) => {
+  //   return Object.keys(req.query).every((property) => {
+  //     return blog[property] == req.query[property];
+  //   });
+  // });
   sendResponse(200, "Sucessful", blog, req, res);
 };
 //Get All Blogs
