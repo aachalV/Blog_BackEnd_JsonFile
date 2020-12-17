@@ -14,7 +14,7 @@ const getAllBlogs = (req, res, next) => {
 };
 //Check Id
 const isIdValid = (req, res, next) => {
-  console.log("Enterd IsVAlid");
+  console.log("Entered IsValid");
   let id = req.params.id;
   let idExists = blogs.some((blog) => {
     return blog.id == id;
@@ -29,9 +29,8 @@ const isIdValid = (req, res, next) => {
       req,
       res
     );
-  } else {
-    next();
   }
+  next();
 };
 //Get Blog by Id
 const getBlogById = (req, res, next) => {
@@ -39,9 +38,54 @@ const getBlogById = (req, res, next) => {
   let blog = blogs.find((blog) => {
     return blog.id == id;
   });
+  console.log(blog);
   sendResponse(200, "Successfull", blog, req, res);
+};
+
+//middleware
+const verifyPostRequest = (req, res, next) => {
+  console.log(req.body);
+  const requiredProperties = [
+    "blogAuthor",
+    "blogHeader",
+    "blogContent",
+    "blogBannerImg",
+  ];
+  let result = requiredProperties.every((key) => {
+    return req.body[key];
+  });
+  if (!result) {
+    return sendErrorMessage(
+      new AppError(400, "Unsuccessful", "request body Invalid Input"),
+      req,
+      res
+    );
+  } else {
+    next();
+  }
+};
+const createBlog = (req, res, next) => {
+  console.log(req.body);
+  let newBlog = new Blog(
+    req.body.blogAuthor,
+    req.body.blogHeader,
+    req.body.blogContent,
+    req.body.blogBannerImg
+  );
+  blogs.push(newBlog);
+  fs.writeFile(fileName, JSON.stringify(blogs, null, 2), (err) => {
+    if (err) {
+      res.status(500).json({
+        status: "Internal Err",
+      });
+      return err;
+    }
+    sendResponse(200, "Sucessful", [newBlog], req, res);
+  });
 };
 
 module.exports.getAllBlogs = getAllBlogs;
 module.exports.isIdValid = isIdValid;
 module.exports.getBlogById = getBlogById;
+module.exports.verifyPostRequest = verifyPostRequest;
+module.exports.createBlog = createBlog;

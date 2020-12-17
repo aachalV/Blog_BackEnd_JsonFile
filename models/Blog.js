@@ -1,12 +1,12 @@
 const uniqid = require("uniqid");
 
 class Blog {
-  constructor(blogName, author, title, content, imageUrl) {
+  constructor(blogAuthor, blogHeader, blogContent, blogBannerImg) {
     this.id = uniqid();
-    this.author = author;
-    this.title = title;
-    this.content = content;
-    this.imageUrl = imageUrl;
+    this.blogAuthor = blogAuthor;
+    this.blogHeader = blogHeader;
+    this.blogContent = blogContent;
+    this.blogBannerImg = blogBannerImg;
   }
 }
 module.exports = Blog;
