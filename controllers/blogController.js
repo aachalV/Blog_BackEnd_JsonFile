@@ -8,6 +8,18 @@ const sendErrorMessage = require("../helpers/sendError");
 const fileName = path.join(__dirname, "../data", "blogs.json");
 const blogs = JSON.parse(fs.readFileSync(fileName, "utf-8"));
 
+//checkIfQuery
+const checkIfQuery = (req, res, next) => {
+  if (!req.query) {
+    next();
+  }
+  let blog = blogs.filter((blog) => {
+    return Object.keys(req.query).every((property) => {
+      return blog[property] == req.query[property];
+    });
+  });
+  sendResponse(200, "Sucessful", blog, req, res);
+};
 //Get All Blogs
 const getAllBlogs = (req, res, next) => {
   sendResponse(200, "Sucessful", blogs, req, res);
@@ -64,6 +76,7 @@ const verifyPostRequest = (req, res, next) => {
     next();
   }
 };
+//create blog
 const createBlog = (req, res, next) => {
   console.log(req.body);
   let newBlog = new Blog(
@@ -84,6 +97,7 @@ const createBlog = (req, res, next) => {
   });
 };
 
+module.exports.checkIfQuery = checkIfQuery;
 module.exports.getAllBlogs = getAllBlogs;
 module.exports.isIdValid = isIdValid;
 module.exports.getBlogById = getBlogById;

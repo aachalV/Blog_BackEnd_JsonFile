@@ -1,7 +1,13 @@
 const uniqid = require("uniqid");
 
 class Blog {
-  constructor(blogAuthor, blogHeader, blogContent, blogBannerImg) {
+  constructor(
+    blogAuthor,
+    blogHeader,
+    blogContent,
+    blogBannerImg,
+    relatedLinks
+  ) {
     this.id = uniqid();
     this.blogAuthor = blogAuthor;
     this.blogHeader = blogHeader;
